@@ -9,7 +9,7 @@ import java.io.IOException;
 public class DocumentProcessing {
     String dataPath = "data/dataset.csv";
     String stopWordsPath = "data/stop.txt";
-    public LinkedList<Document> documents;
+    LinkedList<Document> documents;
     LinkedList<String> stopWords;
     LinkedList<String> testList;
 
