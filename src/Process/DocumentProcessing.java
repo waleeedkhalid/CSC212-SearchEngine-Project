@@ -11,13 +11,13 @@ public class DocumentProcessing {
     String stopWordsPath = "data/stop.txt";
     LinkedList<Document> documents;
     LinkedList<String> stopWords;
-    LinkedList<String> testList;
+    LinkedList<String> infoList;
 
     // This is the constructor of the DocumentProcessing class - O(1)
     public DocumentProcessing() {
         this.documents = new LinkedList<Document>();
         this.stopWords = new LinkedList<String>();
-        this.testList = new LinkedList<String>(); // save useful information
+        this.infoList = new LinkedList<String>(); // save useful information
         readCsvFile(dataPath);
         readStopwordsFile(stopWordsPath);
         processDocuments();
@@ -41,8 +41,8 @@ public class DocumentProcessing {
                     documents.insert(new Document(docId, content));
 //                    System.out.println(line);
                 } catch (NumberFormatException e) {
-                    // here we are insert the non-document lines into the testList so no information gone.
-                    testList.insert(line);
+                    // here we are insert the non-document lines into the infoList so no information gone.
+                    infoList.insert(line);
 //                    System.out.println(line);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -55,7 +55,7 @@ public class DocumentProcessing {
         }
     }
 
-    // This method is used to read the stopwords file - O(n)
+    // This method is used to read the stopWords file - O(n)
     public void readStopwordsFile(String filePath) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(filePath));
@@ -80,6 +80,7 @@ public class DocumentProcessing {
             LinkedList<String> wordsList = new LinkedList<String>();
 
             for (String word : words) {
+                word = word.replaceAll("[^a-zA-Z]","");
                 String wordLower = word.toLowerCase();
                 if (!stopWords.find(wordLower)) {
                     wordsList.insert(wordLower);
@@ -96,6 +97,7 @@ public class DocumentProcessing {
         LinkedList<String> wordsList = new LinkedList<String>();
 
         for (String word : words) {
+            word = word.replaceAll("[^a-zA-Z]","");
             String wordLower = word.toLowerCase();
             if (!stopWords.find(wordLower)) {
                 wordsList.insert(wordLower);
@@ -122,18 +124,18 @@ public class DocumentProcessing {
             String line;
             while ((line = reader.readLine()) != null) {
                 if (line.toLowerCase().contains(word.toLowerCase())) {
-                    testList.insert(line);
+                    infoList.insert(line);
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return testList;
+        return infoList;
     }
 
-    // This method is used to get the testList - O(1)
-    public LinkedList<String> getTestList() {
-        return testList;
+    // This method is used to get the infoList - O(1)
+    public LinkedList<String> getInfoList() {
+        return infoList;
     }
 }
