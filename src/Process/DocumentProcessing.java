@@ -16,8 +16,8 @@ public class DocumentProcessing {
     // This is the constructor of the DocumentProcessing class - O(1)
     public DocumentProcessing() {
         this.documents = new LinkedList<Document>();
-        this.stopWords = new LinkedList<String>();
-        this.infoList = new LinkedList<String>(); // save useful information
+        this.stopWords = new LinkedList<>();
+        this.infoList = new LinkedList<>(); // save useful information
         readCsvFile(dataPath);
         readStopwordsFile(stopWordsPath);
         processDocuments();
@@ -76,16 +76,7 @@ public class DocumentProcessing {
         while (!documents.last()) {
             Document doc = documents.retrieve();
             String content = doc.getContent();
-            String[] words = content.split("\\s+");
-            LinkedList<String> wordsList = new LinkedList<String>();
-
-            for (String word : words) {
-                word = word.replaceAll("[^a-zA-Z]","");
-                String wordLower = word.toLowerCase();
-                if (!stopWords.find(wordLower)) {
-                    wordsList.insert(wordLower);
-                }
-            }
+            LinkedList<String> wordsList = processDocument(content);
 
             doc.setWords(wordsList);
             documents.findNext();
@@ -93,18 +84,24 @@ public class DocumentProcessing {
 
         Document doc = documents.retrieve();
         String content = doc.getContent();
-        String[] words = content.split("\\s+");
-        LinkedList<String> wordsList = new LinkedList<String>();
+        LinkedList<String> wordsList = processDocument(content);
 
+        doc.setWords(wordsList);
+    }
+
+    // This method is used to process one document - O(n)
+    public LinkedList<String> processDocument(String content) {
+        String processedContent = content.replaceAll("[-/_]+", " ");
+        String[] words = processedContent.split("\\s+");
+        LinkedList<String> wordsList = new LinkedList<>();
         for (String word : words) {
-            word = word.replaceAll("[^a-zA-Z]","");
-            String wordLower = word.toLowerCase();
-            if (!stopWords.find(wordLower)) {
-                wordsList.insert(wordLower);
+            String processedWord = word.replaceAll("[^a-zA-Z0-9\\s]","").toLowerCase();
+            if (!stopWords.find(processedWord)) {
+                wordsList.insert(processedWord);
             }
         }
 
-        doc.setWords(wordsList);
+        return wordsList;
     }
 
     // This method is used to get the documents - O(1)

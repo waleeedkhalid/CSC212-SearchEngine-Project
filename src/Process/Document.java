@@ -50,6 +50,7 @@ public class Document {
             while (!list.last()) {
                 LinkedList<String> words = list.retrieve().getWords();
                 words.findFirst();
+                System.out.print("DocumentId " + list.retrieve().getDocId() + ": ");
                 while (!words.last()) {
                     System.out.print(words.retrieve() + " ");
                     words.findNext();
@@ -60,6 +61,7 @@ public class Document {
             }
             LinkedList<String> words = list.retrieve().getWords();
             words.findFirst();
+            System.out.print("DocumentId " + list.retrieve().getDocId() + ": ");
             while (!words.last()) {
                 System.out.print(words.retrieve() + " ");
                 words.findNext();
