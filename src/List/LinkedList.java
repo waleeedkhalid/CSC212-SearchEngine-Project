@@ -1,6 +1,6 @@
 package List;
 
-public class LinkedList<T> implements List<T> {
+public class LinkedList<T> {
     private Node<T> head;
     private Node<T> current;
 
