@@ -75,29 +75,33 @@ public class DocumentProcessing {
         documents.findFirst();
         while (!documents.last()) {
             Document doc = documents.retrieve();
-            String content = doc.getContent();
-            LinkedList<String> wordsList = processDocument(content);
+            LinkedList<Word> wordsList = processDocument(doc);
 
             doc.setWords(wordsList);
             documents.findNext();
         }
 
         Document doc = documents.retrieve();
-        String content = doc.getContent();
-        LinkedList<String> wordsList = processDocument(content);
+        LinkedList<Word> wordsList = processDocument(documents.retrieve());
 
         doc.setWords(wordsList);
     }
 
     // This method is used to process one document - O(n)
-    public LinkedList<String> processDocument(String content) {
-        String processedContent = content.replaceAll("[-/_]+", " ");
-        String[] words = processedContent.split("\\s+");
-        LinkedList<String> wordsList = new LinkedList<>();
+    public LinkedList<Word> processDocument(Document doc) {
+        String[] words = doc.getContent().split("\\s+");
+        LinkedList<Word> wordsList = new LinkedList<>();
         for (String word : words) {
-            String processedWord = word.replaceAll("[^a-zA-Z0-9\\s]","").toLowerCase();
+            String processedWord = word.replaceAll("[^a-zA-Z0-9]","").toLowerCase();
             if (!stopWords.find(processedWord)) {
-                wordsList.insert(processedWord);
+                Word wordObj = new Word(processedWord, doc);
+                // if the word is not in the list, create a new object and add the document to the list of documents
+                if (!wordsList.find(wordObj)) {
+                    wordsList.insert(wordObj);
+                } else {
+                    // if the word is already in the list, add the document to the list of documents
+                    wordsList.retrieve().addDoc(doc);
+                }
             }
         }
 
