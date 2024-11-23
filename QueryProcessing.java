@@ -70,19 +70,19 @@ public class QueryProcessing {
             return A;
         }
 
-        // البحث باستخدام الكلمة الأولى في الاستعلام
+
         boolean found = inverted.search_word_in_inverted(terms[0].trim().toLowerCase());
         if (found) {
             A = inverted.inverted_index.retrieve().doc_IDS;
         }
 
-        // البحث باستخدام بقية الكلمات
+
         for (int i = 1; i < terms.length; i++) {
             found = inverted.search_word_in_inverted(terms[i].trim().toLowerCase());
             if (found) {
                 B = inverted.inverted_index.retrieve().doc_IDS;
             }
-            A = ORQuery(A, B); // دمج النتائج باستخدام ORQuery
+            A = ORQuery(A, B);
         }
 
         return A;
@@ -95,11 +95,11 @@ public class QueryProcessing {
             return result;
         }
 
-        // معالجة العناصر في القائمة A
+
         A.findFirst();
         while (!A.isEmpty()) {
             boolean found = existsInResult(result, A.retrieve());
-            if (!found) { // إذا لم يتم العثور على العنصر في النتيجة
+            if (!found) {
                 result.insert(A.retrieve());
             }
             if (!A.isLast()) {
@@ -109,11 +109,11 @@ public class QueryProcessing {
             }
         }
 
-        // معالجة العناصر في القائمة B
+
         B.findFirst();
         while (!B.isEmpty()) {
             boolean found = existsInResult(result, B.retrieve());
-            if (!found) { // إذا لم يتم العثور على العنصر في النتيجة
+            if (!found) {
                 result.insert(B.retrieve());
             }
             if (!B.isLast()) {
