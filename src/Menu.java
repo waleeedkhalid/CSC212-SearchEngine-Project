@@ -15,11 +15,11 @@ public class Menu {
         System.out.println("\nEnter your choice: ");
     }
 
-    public void displayIndex() {
+    public void displayEnterRetrieval() {
         System.out.println("Please choose an option:");
         System.out.println("1. Boolean Retrieval");
         System.out.println("2. Ranked Retrieval");
-        System.out.println("3. Exit");
+        System.out.println("3. Back to Main Menu");
         System.out.println("\nEnter your choice: ");
     }
 
@@ -36,6 +36,6 @@ public class Menu {
     }
 
     public void displayEnterChoice() {
-        System.out.println("Enter your choice: ");
+        System.out.println("\nEnter your choice: ");
     }
 }
