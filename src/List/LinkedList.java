@@ -95,4 +95,13 @@ public class LinkedList<T> {
         }
         return count;
     }
+
+    // this method is used to display the list - O(n)
+    public void display() {
+        Node<T> tmp = head;
+        while(tmp != null) {
+            System.out.println(tmp.data);
+            tmp = tmp.next;
+        }
+    }
 }
