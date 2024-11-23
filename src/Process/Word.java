@@ -5,7 +5,6 @@ import List.LinkedList;
 public class Word {
     String word;
     LinkedList<Document> docs;
-    int Frequency;
 
     // This is the constructor of the Word class - O(1)
     public Word(String word, Document doc) {
@@ -19,15 +18,6 @@ public class Word {
         return word;
     }
 
-    // This method is used to increase the frequency of the word - O(1)
-    public void increaseFrequency() {
-        Frequency++;
-    }
-
-    // This method is used to get the frequency of the word - O(1)
-    public int getFrequency() {
-        return Frequency;
-    }
 
     // This method is used to get the documents - O(1)
     public LinkedList<Document> getDocs() {
@@ -42,7 +32,6 @@ public class Word {
     // This method is used to add the document to word object - O(1)
     public void addDoc(Document doc) {
         this.docs.insert(doc);
-        increaseFrequency();
     }
 
     // This method is used to check if the Word object is in Specific Document or not - O(n)

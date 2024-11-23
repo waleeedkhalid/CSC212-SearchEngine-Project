@@ -18,6 +18,11 @@ public class Document {
         return docId;
     }
 
+    // This method is used to set the document id - O(1)
+    public void setDocId(int docId) {
+        this.docId = docId;
+    }
+
     // This method is used to get the content of the document - O(1)
     public String getContent() {
         return content;
@@ -147,5 +152,36 @@ public class Document {
             System.out.println();
         }
         System.out.println("Document Id: " + documents.retrieve().getDocId());
+    }
+
+    // This method is used to get DocumentById from list of words - O(n)
+    static public Document getDocumentById(LinkedList<Word> words, int docId) {
+        words.findFirst();
+        while (!words.last()) {
+            LinkedList<Document> docs = words.retrieve().getDocs();
+            docs.findFirst();
+            while (!docs.last()) {
+                if (docs.retrieve().getDocId() == docId) {
+                    return docs.retrieve();
+                }
+                docs.findNext();
+            }
+            if (docs.retrieve().getDocId() == docId) {
+                return docs.retrieve();
+            }
+            words.findNext();
+        }
+        LinkedList<Document> docs = words.retrieve().getDocs();
+        docs.findFirst();
+        while (!docs.last()) {
+            if (docs.retrieve().getDocId() == docId) {
+                return docs.retrieve();
+            }
+            docs.findNext();
+        }
+        if (docs.retrieve().getDocId() == docId) {
+            return docs.retrieve();
+        }
+        return null;
     }
 }

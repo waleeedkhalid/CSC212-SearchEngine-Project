@@ -9,6 +9,18 @@ public class AVLTree {
         root = null;
     }
 
+    public boolean empty() {
+        return root == null;
+    }
+
+    public boolean update(AVLNode root, Word data) {
+        return update(this.root, data);
+    }
+
+    public boolean find(AVLNode root, Word data) {
+        return find(this.root, data);
+    }
+
     public AVLNode getRoot() {
         return root;
     }
