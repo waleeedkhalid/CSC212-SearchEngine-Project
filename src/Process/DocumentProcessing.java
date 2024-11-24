@@ -1,3 +1,4 @@
+
 package Process;
 
 import List.LinkedList;
@@ -16,8 +17,8 @@ public class DocumentProcessing {
     // This is the constructor of the DocumentProcessing class - O(1)
     public DocumentProcessing() {
         this.documents = new LinkedList<Document>();
-        this.stopWords = new LinkedList<>();
-        this.infoList = new LinkedList<>(); // save useful information
+        this.stopWords = new LinkedList<String>();
+        this.infoList = new LinkedList<String>(); // save useful information
         readCsvFile(dataPath);
         readStopwordsFile(stopWordsPath);
         processDocuments();
@@ -90,7 +91,7 @@ public class DocumentProcessing {
     // This method is used to process one document - O(n)
     public LinkedList<Word> processDocument(Document doc) {
         String[] words = doc.getContent().split("\\s+");
-        LinkedList<Word> wordsList = new LinkedList<>();
+        LinkedList<Word> wordsList = new LinkedList<Word>();
         for (String word : words) {
             String processedWord = word.replaceAll("[^a-zA-Z0-9]","").toLowerCase();
             if (!stopWords.find(processedWord)) {
