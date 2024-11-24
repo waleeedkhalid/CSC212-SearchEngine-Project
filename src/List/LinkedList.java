@@ -84,6 +84,7 @@ public class LinkedList<T> {
         }
         return false;
     }
+    
 
     // this method is used to find the index of a specific value in the list - O(n)
     public int size() {

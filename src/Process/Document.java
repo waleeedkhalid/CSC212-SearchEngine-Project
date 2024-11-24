@@ -148,4 +148,42 @@ public class Document {
         }
         System.out.println("Document Id: " + documents.retrieve().getDocId());
     }
+
+    // This method is used to search for word in list of documents and return Word object - O(n)
+    static public Word find(LinkedList<Document> documents, String word) {
+        Word wordObject = null;
+
+        documents.findFirst();
+        while (!documents.last()) {
+            Document doc = documents.retrieve();
+            LinkedList<Word> words = doc.getWords();
+            words.findFirst();
+            while (!words.last()) {
+                Word wordInDoc = words.retrieve();
+                if(wordInDoc.getWord().equals(word)) {
+                    wordObject = wordInDoc;
+                    break;
+                }
+                words.findNext();
+            }
+            if(wordObject != null) {
+                break;
+            }
+            documents.findNext();
+        }
+
+        Document doc = documents.retrieve();
+        LinkedList<Word> words = doc.getWords();
+        words.findFirst();
+        while (!words.last()) {
+            Word wordInDoc = words.retrieve();
+            if(wordInDoc.getWord().equals(word)) {
+                wordObject = wordInDoc;
+                break;
+            }
+            words.findNext();
+        }
+
+        return wordObject;
+    }
 }
