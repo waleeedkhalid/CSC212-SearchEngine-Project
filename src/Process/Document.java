@@ -18,11 +18,6 @@ public class Document {
         return docId;
     }
 
-    // This method is used to set the document id - O(1)
-    public void setDocId(int docId) {
-        this.docId = docId;
-    }
-
     // This method is used to get the content of the document - O(1)
     public String getContent() {
         return content;
@@ -154,34 +149,41 @@ public class Document {
         System.out.println("Document Id: " + documents.retrieve().getDocId());
     }
 
-    // This method is used to get DocumentById from list of words - O(n)
-    static public Document getDocumentById(LinkedList<Word> words, int docId) {
+    // This method is used to search for word in list of documents and return Word object - O(n)
+    static public Word find(LinkedList<Document> documents, String word) {
+        Word wordObject = null;
+
+        documents.findFirst();
+        while (!documents.last()) {
+            Document doc = documents.retrieve();
+            LinkedList<Word> words = doc.getWords();
+            words.findFirst();
+            while (!words.last()) {
+                Word wordInDoc = words.retrieve();
+                if(wordInDoc.getWord().equals(word)) {
+                    wordObject = wordInDoc;
+                    break;
+                }
+                words.findNext();
+            }
+            if(wordObject != null) {
+                break;
+            }
+            documents.findNext();
+        }
+
+        Document doc = documents.retrieve();
+        LinkedList<Word> words = doc.getWords();
         words.findFirst();
         while (!words.last()) {
-            LinkedList<Document> docs = words.retrieve().getDocs();
-            docs.findFirst();
-            while (!docs.last()) {
-                if (docs.retrieve().getDocId() == docId) {
-                    return docs.retrieve();
-                }
-                docs.findNext();
-            }
-            if (docs.retrieve().getDocId() == docId) {
-                return docs.retrieve();
+            Word wordInDoc = words.retrieve();
+            if(wordInDoc.getWord().equals(word)) {
+                wordObject = wordInDoc;
+                break;
             }
             words.findNext();
         }
-        LinkedList<Document> docs = words.retrieve().getDocs();
-        docs.findFirst();
-        while (!docs.last()) {
-            if (docs.retrieve().getDocId() == docId) {
-                return docs.retrieve();
-            }
-            docs.findNext();
-        }
-        if (docs.retrieve().getDocId() == docId) {
-            return docs.retrieve();
-        }
-        return null;
+
+        return wordObject;
     }
 }

@@ -94,7 +94,8 @@ public class DocumentProcessing {
         for (String word : words) {
             String processedWord = word.replaceAll("[^a-zA-Z0-9]","").toLowerCase();
             if (!stopWords.find(processedWord)) {
-                Word wordObj = new Word(processedWord, doc);
+//                Word wordObj = new Word(processedWord, doc);
+                Word wordObj = Word.getOrCreateWord(processedWord, doc);
                 // if the word is not in the list, create a new object and add the document to the list of documents
                 if (!wordsList.find(wordObj)) {
                     wordsList.insert(wordObj);
