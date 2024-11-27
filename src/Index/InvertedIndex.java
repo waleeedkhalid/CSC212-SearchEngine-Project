@@ -64,4 +64,8 @@ public class InvertedIndex {
         }
         return null;
     }
+
+    public LinkedList<Word> getWords() {
+        return words;
+    }
 }
