@@ -3,16 +3,16 @@ package Trees.AVL;
 import Process.Word;
 
 public class AVLNode {
-    private Word data;
-    private AVLNode left;
-    private AVLNode right;
-    private int height;
+    Word data;
+    AVLNode left;
+    AVLNode right;
+    int height;
 
     public AVLNode(Word data) {
         this.data = data;
         this.left = null;
         this.right = null;
-        this.height = 1;
+        this.height = 0;
     }
 
     public Word getData() {
