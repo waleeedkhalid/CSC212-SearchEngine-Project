@@ -1,4 +1,4 @@
-package Trees;
+package Trees.BST;
 
 public enum Order {
     INORDER,

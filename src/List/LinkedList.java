@@ -1,6 +1,6 @@
 package List;
 
-public class LinkedList<T> {
+public class LinkedList<T> implements List<T> {
     private Node<T> head;
     private Node<T> current;
 
@@ -84,6 +84,7 @@ public class LinkedList<T> {
         }
         return false;
     }
+    
 
     // this method is used to find the index of a specific value in the list - O(n)
     public int size() {

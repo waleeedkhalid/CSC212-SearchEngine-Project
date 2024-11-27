@@ -10,8 +10,9 @@ public class Word {
     // This is the constructor of the Word class - O(1)
     public Word(String word, Document doc) {
         this.word = word;
-        this.docs = new LinkedList<>();
+        docs = new LinkedList<Document>();
         docs.insert(doc);
+        Frequency = 1;
     }
 
     // This method is used to get the word - O(1)
@@ -24,9 +25,26 @@ public class Word {
         Frequency++;
     }
 
-    // This method is used to get the frequency of the word - O(1)
+    // This method is used to get the frequency of the word in all documents - O(1)
     public int getFrequency() {
         return Frequency;
+    }
+
+    // This method is used to get the frequency of the word in specific document - O(n)
+    public int getFrequency(Document doc) {
+        docs.findFirst();
+        while(!docs.last()) {
+            if(docs.retrieve().getDocId() == doc.getDocId()) {
+                return Frequency;
+            }
+            docs.findNext();
+        }
+        return docs.retrieve().getDocId() == doc.getDocId() ? Frequency : 0;
+    }
+
+    // This method is used to set the frequency of the word - O(1)
+    public void setFrequency(int frequency) {
+        Frequency = frequency;
     }
 
     // This method is used to get the documents - O(1)
@@ -69,8 +87,45 @@ public class Word {
         System.out.println(docs.retrieve().getDocId());
     }
 
+    // Method print the word and the frequency - O(1)
+    public void printWordFrequency() {
+        System.out.println("Word: " + word + " [" + Frequency + "]");
+    }
+
+    // method print all words from list of documents - O(n)
+    static public void displayListOfWord(LinkedList<Document> docs) {
+        docs.findFirst();
+        while(!docs.last()) {
+            LinkedList<Word> words = docs.retrieve().getWords();
+            words.findFirst();
+            while(!words.last()) {
+                words.retrieve().printWordFrequency();
+                words.findNext();
+            }
+            docs.findNext();
+        }
+        LinkedList<Word> words = docs.retrieve().getWords();
+        words.findFirst();
+        while(!words.last()) {
+            words.retrieve().printWordFrequency();
+            words.findNext();
+        }
+        words.retrieve().printWordFrequency();
+    }
+
+
     // This method is used to compare the word - O(1)
     public int compareTo(Word w) {
         return word.compareTo(w.getWord());
+    }
+
+    // Factory method to get or create a Word object - O(n)
+    public static Word getOrCreateWord(String word, Document doc) {
+        return WordManager.getOrCreateWord(word, doc);
+    }
+
+    // This method is used to get the word and the documents - O(1)
+    public String toString() {
+        return "Word: " + word + " [" + Frequency + "] Documents: " + docs.toString();
     }
 }

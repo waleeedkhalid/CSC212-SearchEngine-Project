@@ -2,14 +2,12 @@ package Trees.BST;
 
 import Process.Word;
 
-public class BSTNode<T> {
+public class BSTNode {
     private Word word;
-    private T data;
-    private BSTNode<T> left, right;
+    private BSTNode left, right;
 
-    public BSTNode(Word key, T data) {
+    public BSTNode(Word key) {
         this.word = key;
-        this.data = data;
         left = right = null;
     }
 
@@ -17,15 +15,11 @@ public class BSTNode<T> {
         return word;
     }
 
-    public T getData() {
-        return data;
-    }
-
-    public BSTNode<T> getLeft() {
+    public BSTNode getLeft() {
         return left;
     }
 
-    public BSTNode<T> getRight() {
+    public BSTNode getRight() {
         return right;
     }
 
@@ -33,15 +27,11 @@ public class BSTNode<T> {
         this.word = word;
     }
 
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public void setLeft(BSTNode<T> left) {
+    public void setLeft(BSTNode left) {
         this.left = left;
     }
 
-    public void setRight(BSTNode<T> right) {
+    public void setRight(BSTNode right) {
         this.right = right;
     }
 

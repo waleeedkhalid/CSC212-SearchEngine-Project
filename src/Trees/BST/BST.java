@@ -1,10 +1,9 @@
 package Trees.BST;
 
-import Trees.Order;
 import Process.Word;
 
-public class BST<T> {
-    private BSTNode<T> root, current;
+public class BST {
+    private BSTNode root, current;
 
     public BST() {
         root = current = null;
@@ -14,12 +13,12 @@ public class BST<T> {
         return root == null;
     }
 
-    public T retrieve() {
-        return current.getData();
+    public Word retrieve() {
+        return current.getWord();
     }
 
-    public void update(T val) {
-        current.setData(val);
+    public void update(Word val) {
+        current.setWord(val);
     }
 
     public boolean full() {
@@ -27,7 +26,7 @@ public class BST<T> {
     }
 
     public boolean search(Word word) {
-        BSTNode<T> p = root, q = root;
+        BSTNode p = root, q = root;
         if(empty())
             return false;
         while(p != null) {
@@ -36,7 +35,7 @@ public class BST<T> {
                 current = p;
                 return true;
             }
-            else if(word.getWord().compareTo(((Word)p.getData()).getWord()) < 0)
+            else if(word.getWord().compareTo(p.getWord().getWord()) < 0)
                 p = p.getLeft();
             else
                 p = p.getRight();
@@ -46,13 +45,34 @@ public class BST<T> {
         return false;
     }
 
-    public boolean insert(Word word, T data) {
-        BSTNode<T> p, q = current;
+    // search for a String word in the BST - O(log n)
+    public boolean search(String word) {
+        BSTNode p = root, q = root;
+        if(empty())
+            return false;
+        while(p != null) {
+            q = p;
+            if(p.getWord().getWord().equals(word)) {
+                current = p;
+                return true;
+            }
+            else if(word.compareTo(p.getWord().getWord()) < 0)
+                p = p.getLeft();
+            else
+                p = p.getRight();
+        }
+
+        current = q;
+        return false;
+    }
+
+    public boolean insert(Word word) {
+        BSTNode p, q = current;
         if(search(word)) {
             current = q;
             return false;
         }
-        p = new BSTNode<T>(word, data);
+        p = new BSTNode(word);
         if(empty()) {
             root = current = p;
         } else {
@@ -79,7 +99,7 @@ public class BST<T> {
         }
     }
 
-    private void inOrder(BSTNode<T> node) {
+    private void inOrder(BSTNode node) {
         if(node != null) {
             inOrder(node.getLeft());
             System.out.println(node.getWord() + " ");
@@ -87,7 +107,7 @@ public class BST<T> {
         }
     }
 
-    private void preOrder(BSTNode<T> node) {
+    private void preOrder(BSTNode node) {
         if(node != null) {
             System.out.println(node.getWord() + " ");
             preOrder(node.getLeft());
@@ -95,11 +115,23 @@ public class BST<T> {
         }
     }
 
-    private void postOrder(BSTNode<T> node) {
+    private void postOrder(BSTNode node) {
         if(node != null) {
             postOrder(node.getLeft());
             postOrder(node.getRight());
             System.out.println(node.getWord() + " ");
+        }
+    }
+
+    public int size() {
+        return size(root);
+    }
+
+    private int size(BSTNode node) {
+        if(node == null) {
+            return 0;
+        } else {
+            return 1 + size(node.getLeft()) + size(node.getRight());
         }
     }
 }
