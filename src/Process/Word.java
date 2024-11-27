@@ -25,9 +25,21 @@ public class Word {
         Frequency++;
     }
 
-    // This method is used to get the frequency of the word - O(1)
+    // This method is used to get the frequency of the word in all documents - O(1)
     public int getFrequency() {
         return Frequency;
+    }
+
+    // This method is used to get the frequency of the word in specific document - O(n)
+    public int getFrequency(Document doc) {
+        docs.findFirst();
+        while(!docs.last()) {
+            if(docs.retrieve().getDocId() == doc.getDocId()) {
+                return Frequency;
+            }
+            docs.findNext();
+        }
+        return docs.retrieve().getDocId() == doc.getDocId() ? Frequency : 0;
     }
 
     // This method is used to set the frequency of the word - O(1)
@@ -114,6 +126,6 @@ public class Word {
 
     // This method is used to get the word and the documents - O(1)
     public String toString() {
-        return "Word: " + word + " [" + Frequency + "]";
+        return "Word: " + word + " [" + Frequency + "] Documents: " + docs.toString();
     }
 }
