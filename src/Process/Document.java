@@ -167,7 +167,7 @@ public class Document {
 
     // This method is used to print Document object - O(1)
     public String toString() {
-        return "Document Id: " + docId + "\nContent: " + content + "\n";
+        return "Document ID: " + docId + "\nContent: " + content;
     }
 
     // This method is used to print the documents in the list - O(n)
