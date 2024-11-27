@@ -14,6 +14,17 @@ public class Index {
         documents.insert(doc);
     }
 
+    public void addDocuments(LinkedList<Document> docs) {
+        docs.findFirst();
+        while (!docs.last()) {
+            Document doc = docs.retrieve();
+            documents.insert(doc);
+            docs.findNext();
+        }
+        Document doc = docs.retrieve();
+        documents.insert(doc);
+    }
+
     public void setDocuments(LinkedList<Document> documents) {
         this.documents = documents;
     }
@@ -30,6 +41,18 @@ public class Index {
             documents.findNext();
         }
         Document doc = documents.retrieve();
+        System.out.println(doc.toString());
+    }
+
+    public void displayDocuments(LinkedList<Document> docs) {
+        docs.findFirst();
+        while (!docs.last()) {
+            Document doc = docs.retrieve();
+            // print word and doc ids
+            System.out.println(doc.toString());
+            docs.findNext();
+        }
+        Document doc = docs.retrieve();
         System.out.println(doc.toString());
     }
 
@@ -68,22 +91,5 @@ public class Index {
             return w.getDocs();
         }
         return null;
-    }
-
-    // Ranked Retrieval
-    public void rankedRetrieval(String query) {
-        // 1. Tokenize query
-        // 2. For each token, get the document frequency
-        // 3. For each token, get the term frequency
-        // 4. Calculate the weight of each token
-        // 5. Calculate the weight of the document
-        // 6. Calculate the similarity of the document
-        // 7. Sort the documents by similarity
-        // 8. Display the documents
-    }
-
-    // Boolean Retrieval
-    public void booleanRetrieval(String query) {
-
     }
 }
