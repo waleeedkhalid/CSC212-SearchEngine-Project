@@ -19,8 +19,9 @@ public class WordManager {
 
     // add words
     public static void addWord(Word word) {
-        if(!wordList.find(word))
+        if(!wordList.find(word)) {
             wordList.insert(word);
+        }
     }
 //
 //    // display all words in wordsList - O(n)
