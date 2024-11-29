@@ -22,6 +22,20 @@ public class AVLTree {
         return find(this.root, data);
     }
 
+    // find return the node
+    public AVLNode getNode(AVLNode root, String word) {
+        if (root == null) {
+            return null;
+        }
+        if (root.getData().getWord().compareTo(word) == 0) {
+            return root;
+        }
+        if (root.getData().getWord().compareTo(word) > 0) {
+            return getNode(root.getLeft(), word);
+        }
+        return getNode(root.getRight(), word);
+    }
+
     public AVLNode getRoot() {
         return root;
     }
@@ -47,8 +61,7 @@ public class AVLTree {
                     r = rightRotate(r);
                 else
                     r = rlRotate(r);
-        } else
-            ; // Duplicate key; do nothing
+        }
         r.height = Math.max( height( r.left ), height( r.right ) ) + 1;
         return r;
     }
