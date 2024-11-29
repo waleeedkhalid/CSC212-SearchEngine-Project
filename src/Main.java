@@ -1,7 +1,7 @@
 import Process.*;
 import Index.*;
 import List.*;
-import Retrieval.QueryProcessor;
+//import Retrieval.QueryProcessor;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,6 +12,7 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             DocumentProcessing dp = new DocumentProcessing();
 
+            System.out.println("Processing documents...");
             Index index = new Index();
             index.setDocuments(dp.getDocuments());
             System.out.print("Index: ");
@@ -66,14 +67,16 @@ public class Main {
                             System.out.println("Invalid choice. Please try again.");
                             break;
                     }
-                } catch (Exception e) {
+                } catch (InputMismatchException e) {
                     System.out.println("Invalid input. Please try again.");
+                    e.printStackTrace();
                     scanner.nextLine();
                 }
-                menu.displayEnterChoice();
+                menu.displayMenu();
             }
         } catch (Exception e) {
             System.out.println("An error occurred. Please try again.");
+            e.printStackTrace();
         }
     }
 
@@ -84,11 +87,24 @@ public class Main {
         if (retrievalChoice == 1) {
             System.out.println("Enter query for Boolean retrieval:");
             String query = scanner.nextLine();
-            QueryProcessor.processBooleanQuery(query, index);
+            LinkedList<Document> docs = index.processBooleanQuery(query);
+            if(docs != null && !docs.empty() ) {
+                System.out.println("Document(s) found:");
+                docs.findFirst();
+                while(!docs.last()) {
+                    Document doc = docs.retrieve();
+                    System.out.println("- ID: " + doc.getDocId());
+                    docs.findNext();
+                }
+                Document doc = docs.retrieve();
+                System.out.println("- ID: " + doc.getDocId());
+            } else {
+                System.out.println("No, document found.");
+            }
         } else if (retrievalChoice == 2) {
             System.out.println("Enter query for Ranked retrieval:");
             String query = scanner.nextLine();
-            QueryProcessor.processRankedQuery(query, index);
+            index.processRankedQuery(query);
         } else if (retrievalChoice == 3) {
             System.out.println("Enter query to search:");
             String query = scanner.nextLine();
@@ -119,6 +135,17 @@ public class Main {
         } else if (retrievalChoice == 2) {
             System.out.println("Enter query for Ranked retrieval:");
             String query = scanner.nextLine();
+            index.processRankedQuery(query);
+        } else if (retrievalChoice == 3) {
+            System.out.println("Enter query to search:");
+            String query = scanner.nextLine();
+            LinkedList<Document> doc = index.find(query);
+            if(doc != null) {
+                System.out.println("Document found: \n");
+                Document.printDocuments(doc);
+            } else {
+                System.out.println("Document not found.");
+            }
         }
     }
 
@@ -139,6 +166,17 @@ public class Main {
         } else if (retrievalChoice == 2) {
             System.out.println("Enter query for Ranked retrieval:");
             String query = scanner.nextLine();
+            index.processRankedQuery(query);
+        } else if (retrievalChoice == 3) {
+            System.out.println("Enter query to search:");
+            String query = scanner.nextLine();
+            LinkedList<Document> doc = index.find(query);
+            if(doc != null) {
+                System.out.println("Document found: \n");
+                Document.printDocuments(doc);
+            } else {
+                System.out.println("Document not found.");
+            }
         }
     }
 
@@ -159,6 +197,17 @@ public class Main {
         } else if (retrievalChoice == 2) {
             System.out.println("Enter query for Ranked retrieval:");
             String query = scanner.nextLine();
+            index.processRankedQuery(query);
+        } else if (retrievalChoice == 3) {
+            System.out.println("Enter query to search:");
+            String query = scanner.nextLine();
+            LinkedList<Document> doc = index.find(query);
+            if(doc != null) {
+                System.out.println("Document found: \n");
+                Document.printDocuments(doc);
+            } else {
+                System.out.println("Document not found.");
+            }
         }
     }
 }
