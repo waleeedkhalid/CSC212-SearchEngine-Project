@@ -1,9 +1,9 @@
 public class Menu {
     public void displayMenu() {
-//        System.out.println("Welcome to the Simple Search Engine!");
-//        System.out.println("This system is designed to retrieve documents based on the user's query.");
-//        System.out.println("The system supports Boolean and Ranked Retrieval.");
-//        System.out.println("The system also provides the ability to view indexed documents and tokens.");
+        System.out.println("Welcome to the Simple Search Engine!");
+        System.out.println("This system is designed to retrieve documents based on the user's query.");
+        System.out.println("The system supports Boolean and Ranked Retrieval.");
+        System.out.println("The system also provides the ability to view indexed documents and tokens.");
         System.out.println("Please choose an option:");
         System.out.println("1. Index");
         System.out.println("2. Inverted Index");
