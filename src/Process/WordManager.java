@@ -17,23 +17,47 @@ public class WordManager {
         return count;
     }
 
-    // display all words in wordsList - O(n)
-    public static void displayWords() {
-        int count = 0;
-        wordList.findFirst();
-        while (!wordList.last()) {
-            Word word = wordList.retrieve();
-            System.out.println(word.getWord());
-            count++;
-            wordList.findNext();
-        }
-        Word word = wordList.retrieve();
-        System.out.println(word.getWord());
-        count++;
-        System.out.println("Total words: " + count);
+    // add words
+    public static void addWord(Word word) {
+        if(!wordList.find(word))
+            wordList.insert(word);
     }
-
-    // Method to get or create a Word object - O(n)
+//
+//    // display all words in wordsList - O(n)
+//    public static void displayWords() {
+//        int count = 0;
+//        wordList.findFirst();
+//        while (!wordList.last()) {
+//            Word word = wordList.retrieve();
+//            System.out.println(word.getWord() + " - " + word.getFrequency());
+//            LinkedList<Document> docs = word.getDocs();
+//            docs.findFirst();
+//            while (!docs.last()) {
+//                Document doc = docs.retrieve();
+//                System.out.println(doc.getDocId() + " - " + doc.getWordFrequencyInDocument(word.getWord()));
+//                docs.findNext();
+//            }
+//            Document doc = docs.retrieve();
+//            System.out.println(doc.getDocId() + " - " + doc.getWordFrequencyInDocument(word.getWord()));
+//            count++;
+//            wordList.findNext();
+//        }
+//        Word word = wordList.retrieve();
+//        System.out.println(word.getWord() + " - " + word.getFrequency());
+//        LinkedList<Document> docs = word.getDocs();
+//        docs.findFirst();
+//        while (!docs.last()) {
+//            Document doc = docs.retrieve();
+//            System.out.println(doc.getDocId() + " - " + doc.getWordFrequencyInDocument(word.getWord()));
+//            docs.findNext();
+//        }
+//        Document doc = docs.retrieve();
+//        System.out.println(doc.getDocId() + " - " + doc.getWordFrequencyInDocument(word.getWord()));
+//        count++;
+//        System.out.println("Total words: " + count);
+//    }
+//
+//    // Method to get or create a Word object - O(n)
     public static Word getOrCreateWord(String word, Document doc) {
         if (wordList.empty()) {
             Word newWord = new Word(word, doc);
