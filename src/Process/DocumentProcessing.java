@@ -97,6 +97,7 @@ public class DocumentProcessing {
             if (!stopWords.find(processedWord)) {
 //                Word wordObj = new Word(processedWord, doc);
                 Word wordObj = Word.getOrCreateWord(processedWord, doc);
+                WordManager.addWord(wordObj);
                 wordObj.addDoc(doc);
                 wordsList.insert(wordObj);
             }
