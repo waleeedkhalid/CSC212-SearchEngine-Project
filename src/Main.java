@@ -1,7 +1,6 @@
 import Process.*;
 import Index.*;
 import List.*;
-//import Retrieval.QueryProcessor;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -12,24 +11,22 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             DocumentProcessing dp = new DocumentProcessing();
 
-            System.out.println("Processing documents...");
             Index index = new Index();
             index.setDocuments(dp.getDocuments());
-            System.out.print("Index: ");
-            System.out.println(index.getDocuments().size());
-            System.out.print("Inverted Index: ");
+//            System.out.print("Index: ");
+//            System.out.println(index.getDocuments().size());
+//            System.out.print("Inverted Index: ");
             InvertedIndex invertedIndex = new InvertedIndex();
             invertedIndex.addDocuments(dp.getDocuments());
-            System.out.println(invertedIndex.getWords().size());
-            System.out.print("Inverted Index with BST: ");
+//            System.out.println(invertedIndex.getWords().size());
+//            System.out.print("Inverted Index with BST: ");
             InvertedIndexBST invertedIndexBST = new InvertedIndexBST();
             invertedIndexBST.addDocuments(dp.getDocuments());
-            System.out.println(invertedIndexBST.getWords().size());
-            System.out.print("Inverted Index with AVL: ");
+//            System.out.println(invertedIndexBST.getWords().size());
+//            System.out.print("Inverted Index with AVL: ");
             InvertedIndexAVL invertedIndexAVL = new InvertedIndexAVL();
-            invertedIndexAVL.addDocuments(dp.getDocuments());
-            System.out.println(invertedIndexAVL.getWords().size());
-
+//            invertedIndexAVL.addDocuments(dp.getDocuments());
+//            System.out.println(invertedIndexAVL.getWords().size());
 
             Menu menu = new Menu();
             menu.displayMenu();
@@ -69,14 +66,12 @@ public class Main {
                     }
                 } catch (InputMismatchException e) {
                     System.out.println("Invalid input. Please try again.");
-                    e.printStackTrace();
                     scanner.nextLine();
                 }
                 menu.displayMenu();
             }
         } catch (Exception e) {
             System.out.println("An error occurred. Please try again.");
-            e.printStackTrace();
         }
     }
 
@@ -125,12 +120,19 @@ public class Main {
         if (retrievalChoice == 1) {
             System.out.println("Enter query for Boolean retrieval:");
             String query = scanner.nextLine();
-            LinkedList<Document> doc = index.find(query);
-            if(doc != null) {
-                System.out.println("Document found: \n");
-                Document.printDocuments(doc);
+            LinkedList<Document> docs = index.processBooleanQuery(query);
+            if(docs != null && !docs.empty() ) {
+                System.out.println("Document(s) found:");
+                docs.findFirst();
+                while(!docs.last()) {
+                    Document doc = docs.retrieve();
+                    System.out.println("- ID: " + doc.getDocId());
+                    docs.findNext();
+                }
+                Document doc = docs.retrieve();
+                System.out.println("- ID: " + doc.getDocId());
             } else {
-                System.out.println("Document not found.");
+                System.out.println("No, document found.");
             }
         } else if (retrievalChoice == 2) {
             System.out.println("Enter query for Ranked retrieval:");
@@ -156,12 +158,19 @@ public class Main {
         if (retrievalChoice == 1) {
             System.out.println("Enter query for Boolean retrieval:");
             String query = scanner.nextLine();
-            LinkedList<Document> doc = index.find(query);
-            if(doc != null) {
-                System.out.println("Document found: \n");
-                Document.printDocuments(doc);
+            LinkedList<Document> docs = index.processBooleanQuery(query);
+            if(docs != null && !docs.empty() ) {
+                System.out.println("Document(s) found:");
+                docs.findFirst();
+                while(!docs.last()) {
+                    Document doc = docs.retrieve();
+                    System.out.println("- ID: " + doc.getDocId());
+                    docs.findNext();
+                }
+                Document doc = docs.retrieve();
+                System.out.println("- ID: " + doc.getDocId());
             } else {
-                System.out.println("Document not found.");
+                System.out.println("No, document found.");
             }
         } else if (retrievalChoice == 2) {
             System.out.println("Enter query for Ranked retrieval:");
@@ -187,12 +196,19 @@ public class Main {
         if (retrievalChoice == 1) {
             System.out.println("Enter query for Boolean retrieval:");
             String query = scanner.nextLine();
-            LinkedList<Document> doc = index.find(query);
-            if(doc != null) {
-                System.out.println("Document found: \n");
-                Document.printDocuments(doc);
+            LinkedList<Document> docs = index.processBooleanQuery(query);
+            if(docs != null && !docs.empty() ) {
+                System.out.println("Document(s) found:");
+                docs.findFirst();
+                while(!docs.last()) {
+                    Document doc = docs.retrieve();
+                    System.out.println("- ID: " + doc.getDocId());
+                    docs.findNext();
+                }
+                Document doc = docs.retrieve();
+                System.out.println("- ID: " + doc.getDocId());
             } else {
-                System.out.println("Document not found.");
+                System.out.println("No, document found.");
             }
         } else if (retrievalChoice == 2) {
             System.out.println("Enter query for Ranked retrieval:");
