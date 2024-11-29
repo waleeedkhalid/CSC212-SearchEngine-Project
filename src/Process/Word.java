@@ -13,7 +13,6 @@ public class Word {
         docs = new LinkedList<Document>();
         docs.insert(doc);
         Frequency = 1;
-        WordManager.addWord(this);
     }
 
     // This method is used to get the word - O(1)
