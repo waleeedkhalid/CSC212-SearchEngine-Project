@@ -25,10 +25,14 @@ public class Main {
 //            System.out.println(invertedIndexBST.getWords().size());
 //            System.out.print("Inverted Index with AVL: ");
             InvertedIndexAVL invertedIndexAVL = new InvertedIndexAVL();
-//            invertedIndexAVL.addDocuments(dp.getDocuments());
+            invertedIndexAVL.addDocuments(dp.getDocuments());
 //            System.out.println(invertedIndexAVL.getWords().size());
 
             Menu menu = new Menu();
+            System.out.println("Welcome to the Simple Search Engine!");
+            System.out.println("This system is designed to retrieve documents based on the user's query.");
+            System.out.println("The system supports Boolean and Ranked Retrieval.");
+            System.out.println("The system also provides the ability to view indexed documents and tokens.");
             menu.displayMenu();
             while(true) {
                 try {
@@ -72,6 +76,7 @@ public class Main {
             }
         } catch (Exception e) {
             System.out.println("An error occurred. Please try again.");
+            e.printStackTrace();
         }
     }
 
@@ -105,8 +110,15 @@ public class Main {
             String query = scanner.nextLine();
             LinkedList<Document> doc = index.find(query);
             if(doc != null) {
-                System.out.println("Document found: \n");
-                Document.printDocuments(doc);
+                System.out.println("Document(s) found:");
+                doc.findFirst();
+                while(!doc.last()) {
+                    Document d = doc.retrieve();
+                    System.out.println("- ID: " + d.getDocId());
+                    doc.findNext();
+                }
+                Document d = doc.retrieve();
+                System.out.println("- ID: " + d.getDocId());
             } else {
                 System.out.println("Document not found.");
             }
@@ -143,8 +155,15 @@ public class Main {
             String query = scanner.nextLine();
             LinkedList<Document> doc = index.find(query);
             if(doc != null) {
-                System.out.println("Document found: \n");
-                Document.printDocuments(doc);
+                System.out.println("Document(s) found:");
+                doc.findFirst();
+                while(!doc.last()) {
+                    Document d = doc.retrieve();
+                    System.out.println("- ID: " + d.getDocId());
+                    doc.findNext();
+                }
+                Document d = doc.retrieve();
+                System.out.println("- ID: " + d.getDocId());
             } else {
                 System.out.println("Document not found.");
             }
@@ -181,8 +200,15 @@ public class Main {
             String query = scanner.nextLine();
             LinkedList<Document> doc = index.find(query);
             if(doc != null) {
-                System.out.println("Document found: \n");
-                Document.printDocuments(doc);
+                System.out.println("Document(s) found:");
+                doc.findFirst();
+                while(!doc.last()) {
+                    Document d = doc.retrieve();
+                    System.out.println("- ID: " + d.getDocId());
+                    doc.findNext();
+                }
+                Document d = doc.retrieve();
+                System.out.println("- ID: " + d.getDocId());
             } else {
                 System.out.println("Document not found.");
             }
@@ -219,8 +245,15 @@ public class Main {
             String query = scanner.nextLine();
             LinkedList<Document> doc = index.find(query);
             if(doc != null) {
-                System.out.println("Document found: \n");
-                Document.printDocuments(doc);
+                System.out.println("Document(s) found:");
+                doc.findFirst();
+                while(!doc.last()) {
+                    Document d = doc.retrieve();
+                    System.out.println("- ID: " + d.getDocId());
+                    doc.findNext();
+                }
+                Document d = doc.retrieve();
+                System.out.println("- ID: " + d.getDocId());
             } else {
                 System.out.println("Document not found.");
             }
