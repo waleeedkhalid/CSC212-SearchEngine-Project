@@ -1,5 +1,7 @@
 package List;
 
+import Process.Document;
+
 public class LinkedList<T> implements List<T> {
     private Node<T> head;
     private Node<T> current;
@@ -95,6 +97,41 @@ public class LinkedList<T> implements List<T> {
             tmp = tmp.next;
         }
         return count;
+    }
+
+
+    public void sortByRankDescending() {
+        if (head == null || head.next == null) {
+            return;
+        }
+        boolean swapped;
+        do {
+            swapped = false;
+            Node<T> currentNode = head;
+
+            while (currentNode != null && currentNode.next != null) {
+                Document doc1 = (Document) currentNode.data;
+                Document doc2 = (Document) currentNode.next.data;
+
+
+                if (doc1.getRank() < doc2.getRank()) {
+                    T temp = currentNode.data;
+                    currentNode.data = currentNode.next.data;
+                    currentNode.next.data = temp;
+                    swapped = true;
+                }
+                else if (doc1.getRank() == doc2.getRank()) {
+                    if (doc1.getDocId() > doc2.getDocId()) {
+                        T temp = currentNode.data;
+                        currentNode.data = currentNode.next.data;
+                        currentNode.next.data = temp;
+                        swapped = true;
+                    }
+                }
+
+                currentNode = currentNode.next;
+            }
+        } while (swapped);
     }
 
     // this method is used to display the list - O(n)

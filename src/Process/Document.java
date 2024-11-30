@@ -31,7 +31,6 @@ public class Document {
         return words;
     }
 
-
     // This method is used to get the rank of the document - O(1)
     public int getRank() {
         return rank;
@@ -46,13 +45,6 @@ public class Document {
     // This method is used to set the rank of the document - O(1)
     public void setRank(LinkedList<Word> words) {
         int rank = 0;
-        words.findFirst();
-        while (!words.last()) {
-            rank += words.retrieve().getFrequency();
-            words.findNext();
-        }
-        rank += words.retrieve().getFrequency();
-        this.rank = rank;
     }
 
     // This method is used to set the rank of the document - O(1)
@@ -70,34 +62,65 @@ public class Document {
         System.out.println(list.retrieve().getDocId() + ": " + list.retrieve().getRank());
     }
 
+    public Word findWord(String word) {
+        words.findFirst();
+        while (!words.last()) {
+            if(words.retrieve().getWord().equals(word)) {
+                return words.retrieve();
+            }
+            words.findNext();
+        }
+        if(words.retrieve().getWord().equals(word)) {
+            return words.retrieve();
+        }
+        return null;
+    }
+
+    public int getWordFrequencyInDocument(String word) {
+        int frequency = 0;
+        words.findFirst();
+        while (!words.last()) {
+            if(words.retrieve().getWord().equals(word)) {
+//                System.out.println("FREQUENCY !! - "+ docId);
+                frequency++;
+            }
+            words.findNext();
+        }
+        if(words.retrieve().getWord().equals(word)) {
+//            System.out.println("FREQUENCY !! - "+ docId);
+            frequency++;
+        }
+        return frequency;
+    }
+
     // This method is used to print the words of each document in the list - O(n^2)
-//    static public void printDocumentsContentWordsList(LinkedList<Document> list) {
-//        try {
-//            list.findFirst();
-//            while (!list.last()) {
-//                LinkedList<Word> words = list.retrieve().getWords();
-//                words.findFirst();
-//                System.out.print("DocumentId " + list.retrieve().getDocId() + ": ");
-//                while (!words.last()) {
-//                    System.out.print(words.retrieve().getWord() + " ");
-//                    words.findNext();
-//                }
-//                System.out.print(words.retrieve().getWord() + " ");
-//                list.findNext();
-//                System.out.println();
-//            }
-//            LinkedList<Word> words = list.retrieve().getWords();
-//            words.findFirst();
-//            System.out.print("DocumentId " + list.retrieve().getDocId() + ": ");
-//            while (!words.last()) {
-//                System.out.print(words.retrieve().getWord() + " ");
-//                words.findNext();
-//            }
-//            System.out.print(words.retrieve().getWord()+ " ");
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-//    }
+    static public void printDocumentsContentWordsList(LinkedList<Document> list) {
+        try {
+            list.findFirst();
+            while (!list.last()) {
+                LinkedList<Word> words = list.retrieve().getWords();
+                words.findFirst();
+                System.out.print("DocumentId " + list.retrieve().getDocId() + ": ");
+                while (!words.last()) {
+                    System.out.print(words.retrieve().getWord() + " ");
+                    words.findNext();
+                }
+                System.out.print(words.retrieve().getWord() + " ");
+                list.findNext();
+                System.out.println();
+            }
+            LinkedList<Word> words = list.retrieve().getWords();
+            words.findFirst();
+            System.out.print("DocumentId " + list.retrieve().getDocId() + ": ");
+            while (!words.last()) {
+                System.out.print(words.retrieve().getWord() + " ");
+                words.findNext();
+            }
+            System.out.print(words.retrieve().getWord()+ " ");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     // This method is used to print the number of tokens in the list of documents - O(n)
     static public void printNumberOfTokens(LinkedList<Document> documents) {
@@ -167,7 +190,7 @@ public class Document {
 
     // This method is used to print Document object - O(1)
     public String toString() {
-        return "Document ID: " + docId + "\nContent: " + content;
+        return docId+" - "+rank;
     }
 
     // This method is used to print the documents in the list - O(n)
@@ -182,40 +205,42 @@ public class Document {
     }
 
     // This method is used to search for word in list of documents and return Word object - O(n)
-//    static public Word find(LinkedList<Document> documents, String word) {
-//        Word wordObject = null;
-//
-//        documents.findFirst();
-//        while (!documents.last()) {
-//            Document doc = documents.retrieve();
-//            LinkedList<Word> words = doc.getWords();
-//            words.findFirst();
-//            while (!words.last()) {
-//                Word wordInDoc = words.retrieve();
-//                if(wordInDoc.getWord().equals(word)) {
-//                    wordObject = wordInDoc;
-//                    break;
-//                }
-//                words.findNext();
-//            }
-//            if(wordObject != null) {
-//                break;
-//            }
-//            documents.findNext();
-//        }
-//
-//        Document doc = documents.retrieve();
-//        LinkedList<Word> words = doc.getWords();
-//        words.findFirst();
-//        while (!words.last()) {
-//            Word wordInDoc = words.retrieve();
-//            if(wordInDoc.getWord().equals(word)) {
-//                wordObject = wordInDoc;
-//                break;
-//            }
-//            words.findNext();
-//        }
-//
-//        return wordObject;
-//    }
+    static public Word find(LinkedList<Document> documents, String word) {
+        Word wordObject = null;
+
+        documents.findFirst();
+        while (!documents.last()) {
+            Document doc = documents.retrieve();
+            LinkedList<Word> words = doc.getWords();
+            words.findFirst();
+            while (!words.last()) {
+                Word wordInDoc = words.retrieve();
+                if(wordInDoc.getWord().equals(word)) {
+                    wordObject = wordInDoc;
+                    break;
+                }
+                words.findNext();
+            }
+            if(wordObject != null) {
+                break;
+            }
+            documents.findNext();
+        }
+
+        Document doc = documents.retrieve();
+        LinkedList<Word> words = doc.getWords();
+        words.findFirst();
+        while (!words.last()) {
+            Word wordInDoc = words.retrieve();
+            if(wordInDoc.getWord().equals(word)) {
+                wordObject = wordInDoc;
+                break;
+            }
+            words.findNext();
+        }
+
+        return wordObject;
+    }
+
+
 }
