@@ -7,62 +7,106 @@ public class QueryProcessor {
     // This method is used to process AND queries - Worst case O(n^2) - Average case O(n log n)
     public static LinkedList<Document> processBooleanQuery(String query, IndexInterface index) {
         LinkedList<Document> result = new LinkedList<Document>();
-        String[] words = query.toLowerCase().split(" ");
-        LinkedList<String> processedWords = new LinkedList<String>();
+//        String[] words = query.toLowerCase().split(" ");
+//        LinkedList<String> processedWords = new LinkedList<String>();
+
+        // Process all AND operations
+        if(!query.toLowerCase().contains(" or ")) {
+            if(query.toLowerCase().contains(" and ")) {
+                String[] splitByAND = query.toLowerCase().split(" and ");
+                LinkedList<Document> andResult = new LinkedList<Document>();
+                for (String word : splitByAND) {
+                    LinkedList<Document> wordDocs = index.find(word.trim());
+                    if (andResult != null && andResult.empty()) {
+                        andResult = wordDocs;
+                    } else {
+                        andResult = processAndQuery(andResult, wordDocs);
+                    }
+                }
+                return andResult;
+            } else {
+                return index.find(query);
+            }
+        }
+
+        String[] splitByOR = query.toLowerCase().split(" or ");
+        for (String orOperation : splitByOR) { // O(n)
+            String[] splitByAND = orOperation.toLowerCase().split(" and ");
+            LinkedList<Document> andResult = new LinkedList<Document>();
+            for (String word : splitByAND) { // O(n)
+                LinkedList<Document> wordDocs = index.find(word.trim()); // Index O(n^2) - InvertedIndex O(n) - BSTIndex O(h) where h is height of longest path - AVLIndex O(log n)
+                if (andResult != null && andResult.empty()) {
+                    andResult = wordDocs;
+                } else {
+                    andResult = processAndQuery(andResult, wordDocs);
+                }
+            }
+            if (result.empty()) {
+                result = andResult; // Initialize result with the first AND operation result
+            } else {
+                result = processOrQuery(result, andResult); // Combine the result of ANDs with OR
+            }
+        }
+
 
         // First, process all AND operations
-        for (int i = 1; i < words.length; i+=2) { // O(n)
-            String operator = words[i];
-            if (operator.equalsIgnoreCase("and")) {
-                String word1 = words[i - 1];
-                String word2 = words[i + 1];
-                LinkedList<Document> wordDocs1 = index.find(word1); // Index O(n^2) - InvertedIndex O(n) - BSTIndex O(h) where h is height of longest path - AVLIndex O(log n)
-                LinkedList<Document> wordDocs2 = index.find(word2); // Index O(n^2) - InvertedIndex O(n) - BSTIndex O(h) where h is height of longest path - AVLIndex O(log n)
-                result = processAndQuery(wordDocs1, wordDocs2); // O(n)
-                if (!processedWords.find(word1)) {
-                    processedWords.insert(word1);
-                }
-                if (!processedWords.find(word2)) {
-                    processedWords.insert(word2);
-                }
-            }
-        }
+//        for (int i = 1; i < words.length; i+=2) { // O(n)
+//            String operator = words[i];
+//            if (operator.equalsIgnoreCase("and")) {
+//                String word1 = words[i - 1];
+//                String word2 = words[i + 1];
+//                LinkedList<Document> wordDocs1 = index.find(word1); // Index O(n^2) - InvertedIndex O(n) - BSTIndex O(h) where h is height of longest path - AVLIndex O(log n)
+//                LinkedList<Document> wordDocs2 = index.find(word2); // Index O(n^2) - InvertedIndex O(n) - BSTIndex O(h) where h is height of longest path - AVLIndex O(log n)
+//                result = processAndQuery(wordDocs1, wordDocs2); // O(n)
+//                if (!processedWords.find(word1)) {
+//                    processedWords.insert(word1);
+//                }
+//                if (!processedWords.find(word2)) {
+//                    processedWords.insert(word2);
+//                }
+//            }
+//        }
 
         // Then, process all OR operations
-        for (int i = 0; i < words.length; i += 2) {
-            String word = words[i];
-            if (!processedWords.find(word)) {
-                LinkedList<Document> wordDocs = index.find(word);
-                result = processOrQuery(result, wordDocs);
-            }
-        }
+//        for (int i = 0; i < words.length; i += 2) {
+//            String word = words[i];
+//            if (!processedWords.find(word)) {
+//                LinkedList<Document> wordDocs = index.find(word);
+//                result = processOrQuery(result, wordDocs);
+//            }
+//        }
 
         return result;
     }
 
-    // This method used to process AND queries - O(n)
+    // This method is used to process AND queries - O(n)
     private static LinkedList<Document> processAndQuery(LinkedList<Document> docs1, LinkedList<Document> docs2) {
         LinkedList<Document> result = new LinkedList<Document>();
 
-        if(docs1 == null || docs2 == null || docs1.empty() || docs2.empty()) {
-            return null;
+        if (docs1 == null || docs2 == null || docs1.empty() || docs2.empty()) {
+            return result;
         }
 
-        docs1.findFirst();
-        while (!docs1.last()) { // O(n)
-            Document doc = docs1.retrieve();
-            if(docs2 != null && docs2.find(doc)) {
+        LinkedList<Document> smallerList = (docs1.size() <= docs2.size()) ? docs1 : docs2;
+        LinkedList<Document> largerList = (docs1.size() > docs2.size()) ? docs1 : docs2;
+
+
+        smallerList.findFirst();
+        while (!smallerList.last()) {
+            Document doc = smallerList.retrieve();
+            if (largerList.find(doc)) {
                 result.insert(doc);
             }
-            docs1.findNext();
+            smallerList.findNext();
         }
-        Document doc = docs1.retrieve();
-        if(docs2 != null && docs2.find(doc)) {
+        Document doc = smallerList.retrieve();
+        if (largerList.find(doc)) {
             result.insert(doc);
         }
 
         return result;
     }
+
 
     // This method used to process OR queries - O(n)
     private static LinkedList<Document> processOrQuery(LinkedList<Document> docs1, LinkedList<Document> docs2) {
