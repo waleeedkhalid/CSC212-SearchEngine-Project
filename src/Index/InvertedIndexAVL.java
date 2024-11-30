@@ -17,15 +17,11 @@ public class InvertedIndexAVL {
         docWords.findFirst();
         while (!docWords.last()) {
             Word word = docWords.retrieve();
-            if (!words.find(word.getWord())) {
-                words.insert(word);
-            }
+            words.insert(word);
             docWords.findNext();
         }
         Word word = docWords.retrieve();
-        if (!words.find(word.getWord())) {
-            words.insert(word);
-        }
+        words.insert(word);
     }
 
     public void addDocuments(LinkedList<Document> documents) {
@@ -39,9 +35,6 @@ public class InvertedIndexAVL {
         addDocument(doc);
     }
 
-    public void displayWords() {
-        words.traverse(Order.INORDER);
-    }
 
     // Returns the list of documents that contain the word - O(log n)
     public LinkedList<Document> find(String word) {
@@ -100,13 +93,13 @@ public class InvertedIndexAVL {
         docs1.findFirst();
         while (!docs1.last()) { // O(n)
             Document doc = docs1.retrieve();
-            if(docs2 != null && docs2.find(doc)) { // O(log n)
+            if(docs2 != null && docs2.find(doc)) {
                 result.insert(doc);
             }
             docs1.findNext();
         }
         Document doc = docs1.retrieve();
-        if(docs2 != null && docs2.find(doc)) { // O(log n)
+        if(docs2 != null && docs2.find(doc)) {
             result.insert(doc);
         }
 
