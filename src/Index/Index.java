@@ -137,7 +137,7 @@ public class Index {
 //        return null;
 //    }
 
-    // This method is used to process Boolean queries - O(n^3)
+    // This method is used to process Boolean queries - O(n^2)
     public LinkedList<Document> processBooleanQuery(String query) {
         LinkedList<Document> result = new LinkedList<Document>();
         String[] words = query.toLowerCase().split(" ");
