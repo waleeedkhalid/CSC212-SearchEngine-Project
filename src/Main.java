@@ -44,15 +44,15 @@ public class Main {
                             break;
                         case 2:
                             System.out.println("Searching in Inverted Index...\n");
-                            handleSearchInInvertedIndex(menu, scanner, invertedIndex);
+                            handleSearchInIndex(menu, scanner, invertedIndex);
                             break;
                         case 3:
                             System.out.println("Searching in Inverted Index with BST...\n");
-                            handleSearchInInvertedIndexBST(menu, scanner, invertedIndexBST);
+                            handleSearchInIndex(menu, scanner, invertedIndexBST);
                             break;
                         case 4:
                             System.out.println("Searching in Inverted Index with AVL...\n");
-                            handleSearchInInvertedIndexAVL(menu, scanner, invertedIndexAVL);
+                            handleSearchInIndex(menu, scanner, invertedIndexAVL);
                             break;
                         case 5:
                             System.out.println(dp.getDocuments().size() + " Documents");
@@ -80,14 +80,14 @@ public class Main {
         }
     }
 
-    private static void handleSearchInIndex(Menu menu, Scanner scanner, Index index) {
+    private static void handleSearchInIndex(Menu menu, Scanner scanner, IndexInterface index) {
         menu.displayEnterRetrieval();
         int retrievalChoice = scanner.nextInt();
         scanner.nextLine();
         if (retrievalChoice == 1) {
             System.out.println("Enter query for Boolean retrieval:");
             String query = scanner.nextLine();
-            LinkedList<Document> docs = index.processBooleanQuery(query);
+            LinkedList<Document> docs = QueryProcessor.processBooleanQuery(query, index);
             if(docs != null && !docs.empty() ) {
                 System.out.println("Document(s) found:");
                 docs.findFirst();
@@ -104,7 +104,7 @@ public class Main {
         } else if (retrievalChoice == 2) {
             System.out.println("Enter query for Ranked retrieval:");
             String query = scanner.nextLine();
-            index.processRankedQuery(query);
+            QueryProcessor.processRankedQuery(query, index);
         } else if (retrievalChoice == 3) {
             System.out.println("Enter query to search:");
             String query = scanner.nextLine();
@@ -125,138 +125,138 @@ public class Main {
         }
     }
 
-    private static void handleSearchInInvertedIndex(Menu menu, Scanner scanner, InvertedIndex index) {
-        menu.displayEnterRetrieval();
-        int retrievalChoice = scanner.nextInt();
-        scanner.nextLine();
-        if (retrievalChoice == 1) {
-            System.out.println("Enter query for Boolean retrieval:");
-            String query = scanner.nextLine();
-            LinkedList<Document> docs = index.processBooleanQuery(query);
-            if(docs != null && !docs.empty() ) {
-                System.out.println("Document(s) found:");
-                docs.findFirst();
-                while(!docs.last()) {
-                    Document doc = docs.retrieve();
-                    System.out.println("- ID: " + doc.getDocId());
-                    docs.findNext();
-                }
-                Document doc = docs.retrieve();
-                System.out.println("- ID: " + doc.getDocId());
-            } else {
-                System.out.println("No, document found.");
-            }
-        } else if (retrievalChoice == 2) {
-            System.out.println("Enter query for Ranked retrieval:");
-            String query = scanner.nextLine();
-            index.processRankedQuery(query);
-        } else if (retrievalChoice == 3) {
-            System.out.println("Enter query to search:");
-            String query = scanner.nextLine();
-            LinkedList<Document> doc = index.find(query);
-            if(doc != null) {
-                System.out.println("Document(s) found:");
-                doc.findFirst();
-                while(!doc.last()) {
-                    Document d = doc.retrieve();
-                    System.out.println("- ID: " + d.getDocId());
-                    doc.findNext();
-                }
-                Document d = doc.retrieve();
-                System.out.println("- ID: " + d.getDocId());
-            } else {
-                System.out.println("Document not found.");
-            }
-        }
-    }
-
-    private static void handleSearchInInvertedIndexBST(Menu menu, Scanner scanner, InvertedIndexBST index) {
-        menu.displayEnterRetrieval();
-        int retrievalChoice = scanner.nextInt();
-        scanner.nextLine();
-        if (retrievalChoice == 1) {
-            System.out.println("Enter query for Boolean retrieval:");
-            String query = scanner.nextLine();
-            LinkedList<Document> docs = index.processBooleanQuery(query);
-            if(docs != null && !docs.empty() ) {
-                System.out.println("Document(s) found:");
-                docs.findFirst();
-                while(!docs.last()) {
-                    Document doc = docs.retrieve();
-                    System.out.println("- ID: " + doc.getDocId());
-                    docs.findNext();
-                }
-                Document doc = docs.retrieve();
-                System.out.println("- ID: " + doc.getDocId());
-            } else {
-                System.out.println("No, document found.");
-            }
-        } else if (retrievalChoice == 2) {
-            System.out.println("Enter query for Ranked retrieval:");
-            String query = scanner.nextLine();
-            index.processRankedQuery(query);
-        } else if (retrievalChoice == 3) {
-            System.out.println("Enter query to search:");
-            String query = scanner.nextLine();
-            LinkedList<Document> doc = index.find(query);
-            if(doc != null) {
-                System.out.println("Document(s) found:");
-                doc.findFirst();
-                while(!doc.last()) {
-                    Document d = doc.retrieve();
-                    System.out.println("- ID: " + d.getDocId());
-                    doc.findNext();
-                }
-                Document d = doc.retrieve();
-                System.out.println("- ID: " + d.getDocId());
-            } else {
-                System.out.println("Document not found.");
-            }
-        }
-    }
-
-    private static void handleSearchInInvertedIndexAVL(Menu menu, Scanner scanner, InvertedIndexAVL index) {
-        menu.displayEnterRetrieval();
-        int retrievalChoice = scanner.nextInt();
-        scanner.nextLine();
-        if (retrievalChoice == 1) {
-            System.out.println("Enter query for Boolean retrieval:");
-            String query = scanner.nextLine();
-            LinkedList<Document> docs = index.processBooleanQuery(query);
-            if(docs != null && !docs.empty() ) {
-                System.out.println("Document(s) found:");
-                docs.findFirst();
-                while(!docs.last()) {
-                    Document doc = docs.retrieve();
-                    System.out.println("- ID: " + doc.getDocId());
-                    docs.findNext();
-                }
-                Document doc = docs.retrieve();
-                System.out.println("- ID: " + doc.getDocId());
-            } else {
-                System.out.println("No, document found.");
-            }
-        } else if (retrievalChoice == 2) {
-            System.out.println("Enter query for Ranked retrieval:");
-            String query = scanner.nextLine();
-            index.processRankedQuery(query);
-        } else if (retrievalChoice == 3) {
-            System.out.println("Enter query to search:");
-            String query = scanner.nextLine();
-            LinkedList<Document> doc = index.find(query);
-            if(doc != null) {
-                System.out.println("Document(s) found:");
-                doc.findFirst();
-                while(!doc.last()) {
-                    Document d = doc.retrieve();
-                    System.out.println("- ID: " + d.getDocId());
-                    doc.findNext();
-                }
-                Document d = doc.retrieve();
-                System.out.println("- ID: " + d.getDocId());
-            } else {
-                System.out.println("Document not found.");
-            }
-        }
-    }
+//    private static void handleSearchInInvertedIndex(Menu menu, Scanner scanner, InvertedIndex index) {
+//        menu.displayEnterRetrieval();
+//        int retrievalChoice = scanner.nextInt();
+//        scanner.nextLine();
+//        if (retrievalChoice == 1) {
+//            System.out.println("Enter query for Boolean retrieval:");
+//            String query = scanner.nextLine();
+//            LinkedList<Document> docs = index.processBooleanQuery(query);
+//            if(docs != null && !docs.empty() ) {
+//                System.out.println("Document(s) found:");
+//                docs.findFirst();
+//                while(!docs.last()) {
+//                    Document doc = docs.retrieve();
+//                    System.out.println("- ID: " + doc.getDocId());
+//                    docs.findNext();
+//                }
+//                Document doc = docs.retrieve();
+//                System.out.println("- ID: " + doc.getDocId());
+//            } else {
+//                System.out.println("No, document found.");
+//            }
+//        } else if (retrievalChoice == 2) {
+//            System.out.println("Enter query for Ranked retrieval:");
+//            String query = scanner.nextLine();
+//            index.processRankedQuery(query);
+//        } else if (retrievalChoice == 3) {
+//            System.out.println("Enter query to search:");
+//            String query = scanner.nextLine();
+//            LinkedList<Document> doc = index.find(query);
+//            if(doc != null) {
+//                System.out.println("Document(s) found:");
+//                doc.findFirst();
+//                while(!doc.last()) {
+//                    Document d = doc.retrieve();
+//                    System.out.println("- ID: " + d.getDocId());
+//                    doc.findNext();
+//                }
+//                Document d = doc.retrieve();
+//                System.out.println("- ID: " + d.getDocId());
+//            } else {
+//                System.out.println("Document not found.");
+//            }
+//        }
+//    }
+//
+//    private static void handleSearchInInvertedIndexBST(Menu menu, Scanner scanner, InvertedIndexBST index) {
+//        menu.displayEnterRetrieval();
+//        int retrievalChoice = scanner.nextInt();
+//        scanner.nextLine();
+//        if (retrievalChoice == 1) {
+//            System.out.println("Enter query for Boolean retrieval:");
+//            String query = scanner.nextLine();
+//            LinkedList<Document> docs = index.processBooleanQuery(query);
+//            if(docs != null && !docs.empty() ) {
+//                System.out.println("Document(s) found:");
+//                docs.findFirst();
+//                while(!docs.last()) {
+//                    Document doc = docs.retrieve();
+//                    System.out.println("- ID: " + doc.getDocId());
+//                    docs.findNext();
+//                }
+//                Document doc = docs.retrieve();
+//                System.out.println("- ID: " + doc.getDocId());
+//            } else {
+//                System.out.println("No, document found.");
+//            }
+//        } else if (retrievalChoice == 2) {
+//            System.out.println("Enter query for Ranked retrieval:");
+//            String query = scanner.nextLine();
+//            index.processRankedQuery(query);
+//        } else if (retrievalChoice == 3) {
+//            System.out.println("Enter query to search:");
+//            String query = scanner.nextLine();
+//            LinkedList<Document> doc = index.find(query);
+//            if(doc != null) {
+//                System.out.println("Document(s) found:");
+//                doc.findFirst();
+//                while(!doc.last()) {
+//                    Document d = doc.retrieve();
+//                    System.out.println("- ID: " + d.getDocId());
+//                    doc.findNext();
+//                }
+//                Document d = doc.retrieve();
+//                System.out.println("- ID: " + d.getDocId());
+//            } else {
+//                System.out.println("Document not found.");
+//            }
+//        }
+//    }
+//
+//    private static void handleSearchInInvertedIndexAVL(Menu menu, Scanner scanner, InvertedIndexAVL index) {
+//        menu.displayEnterRetrieval();
+//        int retrievalChoice = scanner.nextInt();
+//        scanner.nextLine();
+//        if (retrievalChoice == 1) {
+//            System.out.println("Enter query for Boolean retrieval:");
+//            String query = scanner.nextLine();
+//            LinkedList<Document> docs = index.processBooleanQuery(query);
+//            if(docs != null && !docs.empty() ) {
+//                System.out.println("Document(s) found:");
+//                docs.findFirst();
+//                while(!docs.last()) {
+//                    Document doc = docs.retrieve();
+//                    System.out.println("- ID: " + doc.getDocId());
+//                    docs.findNext();
+//                }
+//                Document doc = docs.retrieve();
+//                System.out.println("- ID: " + doc.getDocId());
+//            } else {
+//                System.out.println("No, document found.");
+//            }
+//        } else if (retrievalChoice == 2) {
+//            System.out.println("Enter query for Ranked retrieval:");
+//            String query = scanner.nextLine();
+//            index.processRankedQuery(query);
+//        } else if (retrievalChoice == 3) {
+//            System.out.println("Enter query to search:");
+//            String query = scanner.nextLine();
+//            LinkedList<Document> doc = index.find(query);
+//            if(doc != null) {
+//                System.out.println("Document(s) found:");
+//                doc.findFirst();
+//                while(!doc.last()) {
+//                    Document d = doc.retrieve();
+//                    System.out.println("- ID: " + d.getDocId());
+//                    doc.findNext();
+//                }
+//                Document d = doc.retrieve();
+//                System.out.println("- ID: " + d.getDocId());
+//            } else {
+//                System.out.println("Document not found.");
+//            }
+//        }
+//    }
 }
